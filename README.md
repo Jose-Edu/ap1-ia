@@ -1,5 +1,7 @@
 # ap1-ia
 
+[Vídeo explicando a aplicação](https://youtu.be/Zax2z_8AVOQ)
+
 Sistema que sugere uma distro linux desktop conforme o caso de uso do usuário.
 Feito em Javascript usando o código base da aula de fundamentos de ia do professor Lucas Saraiva.
 

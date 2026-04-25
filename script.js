@@ -1,33 +1,66 @@
-let possiveisRespostas = [
-    "Xuxa",
-    "Michael Jackson",
-    "Neymar",
-    "Wagner Moura"
-]
-
 let arrayPerguntas = [
     {
         "id": "index",
-        "pergunta": "pergunta1",
-        "sim": {"resposta": "Xuxa"},
-        "nao": {"redireciona": "isSinger"}
+        "pergunta": "O foco é em programação?",
+        "sim": {"redireciona": "servidores"},
+        "nao": {"redireciona": "isGamer"}
+    },
+
+    {
+        "id": "servidores",
+        "pergunta": "O seu interesse em Linux é por servidores?",
+        "sim": {"resposta": "Ubuntu"},
+        "nao": {"resposta": "Fedora"}
+    },
+
+    {
+        "id": "isGamer",
+        "pergunta": "Você vai jogar nesse pc?",
+        "sim": {"redireciona": "isHardGamer"},
+        "nao": {"redireciona": "customizacao"}
     },
     {
-        "id": "isSinger",
-        "pergunta": "pergunta2",
-        "sim": {"resposta": "Michael Jackson"},
-        "nao": {"redireciona": "isSoccerPlayer"}
+        "id": "isHardGamer",
+        "pergunta": "Certo, você vai jogar, mas vai SÓ JOGAR?",
+        "sim": {"redireciona": "performace"},
+        "nao": {"redireciona": "linuxDificil"}
     },
     {
-        "id": "isSoccerPlayer",
-        "pergunta": "pergunta3",
-        "sim": {"resposta": "Neymar"},
-        "nao": {"resposta": "Wagner Moura"}
+        "id": "performace",
+        "pergunta": "A relação -fácil +performance compensa pra você?",
+        "sim": {"resposta": "CachyOs"},
+        "nao": {"resposta": "Bazzite"}
+    },
+    {
+        "id": "linuxDificil",
+        "pergunta": "Usar Linux ainda te assusta?",
+        "sim": {"resposta": "ZorinOs"},
+        "nao": {"resposta": "Pop_!OS"}
+    },
+
+    {
+        "id": "customizacao",
+        "pergunta": "Customização é importante para você?",
+        "sim": {"redireciona": "hardCustomizacao"},
+        "nao": {"resposta": "Debian Stable"}
+    },
+    {
+        "id": "hardCustomizacao",
+        "pergunta": "A customização vale todo o seu tempo?",
+        "sim": {"redireciona": "customizarSoftware"},
+        "nao": {"resposta": "Mint"}
+    },
+    {
+        "id": "customizarSoftware",
+        "pergunta": "Gostaria de customizar até o código dos softwares do dia a dia?",
+        "sim": {"resposta": "Gentoo"},
+        "nao": {"resposta": "Arch"}
     }
+
 ]
 
 async function lerEntrada(mensagem) {
-    process.stdout.write(mensagem);
+    process.stdout.write(mensagem+" ");
     let buffer = "";
     const stdin = process.stdin;
     stdin.resume();
@@ -50,14 +83,14 @@ async function motorDeInferencia(arrayPerguntas) {
     let indicePergunta = 'index';
     while (!descobriuAResposta) {
         for(const pergunta of arrayPerguntas) {
+            console.log();
             if (pergunta.id == indicePergunta) {
                 console.log("Digite 1 = sim, 2 = não")
                 let resposta = await lerEntrada(pergunta.pergunta);
-                console.log(resposta);
     
                 if (resposta == 1) {
                     if ("resposta" in pergunta.sim) {
-                        console.log("A resposta é " + pergunta.sim.resposta)
+                        console.log("A sua distro é " + pergunta.sim.resposta)
                         descobriuAResposta=true
                     }
                     indicePergunta = pergunta.sim.redireciona;
@@ -65,7 +98,8 @@ async function motorDeInferencia(arrayPerguntas) {
                 }
                 else {
                     if ("resposta" in pergunta.nao) {
-                        console.log("A resposta é " + pergunta.nao.resposta)
+                        console.log();
+                        console.log("A sua distro é " + pergunta.nao.resposta)
                         descobriuAResposta=true
                     }
                     indicePergunta = pergunta.nao.redireciona;
@@ -77,4 +111,5 @@ async function motorDeInferencia(arrayPerguntas) {
 
 }
 
+console.log("Seletor de distro Linux:")
 motorDeInferencia(arrayPerguntas);
